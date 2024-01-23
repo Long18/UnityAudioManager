@@ -9,8 +9,9 @@ namespace Long18.System.Audio
 
     {
         [SerializeField] private AudioCueEventChannelSO _musicEventChannel;
+        [SerializeField] private AudioEmitter _emitter;
 
-        private AudioEmitter _playingMusicAudioEmitter;
+        private AudioEmitter _musicEmitter;
         private AudioCueSO _currentBgmCue;
 
         private void OnEnable()
@@ -38,28 +39,31 @@ namespace Long18.System.Audio
 
         private void HandleMusicToPlay(AudioCueSO audioToPlay)
         {
+            float startTime = 0f;
+
             if (_currentBgmCue != null)
             {
                 _currentBgmCue.GetPlayableAsset().ReleaseAsset();
             }
 
-            AudioHelper.TryToLoadData(audioToPlay, currentClip =>
+            void OnAudioClipLoaded(AudioClip currentClip)
             {
                 if (IsAudioPlaying())
                 {
                     AudioClip musicToPlay = currentClip;
-                    if (_playingMusicAudioEmitter.GetClip() == musicToPlay) return;
+                    if (_musicEmitter.GetClip() == musicToPlay) return;
+                    startTime = _musicEmitter.FadeMusicOut();
                 }
 
-                if (_playingMusicAudioEmitter == null)
-                {
-                    // TODO: Get new audio
-                }
+                if (!_musicEmitter) _musicEmitter = _emitter;
+                _musicEmitter.FadeMusicIn(currentClip, startTime);
 
                 _currentBgmCue = audioToPlay;
 
                 Debug.Log($"[AudioManager::HandleMusicToPlay] Playing background music: {audioToPlay.name}");
-            });
+            }
+
+            AudioHelper.TryToLoadData(audioToPlay, OnAudioClipLoaded);
         }
 
 
@@ -67,11 +71,11 @@ namespace Long18.System.Audio
         {
             if (!IsAudioPlaying()) return;
 
-            _playingMusicAudioEmitter.Stop();
+            _musicEmitter.Stop();
             Debug.Log($"[AudioManager] Stopped playing background music");
         }
 
 
-        private bool IsAudioPlaying() => _playingMusicAudioEmitter != null && _playingMusicAudioEmitter.IsPlaying();
+        private bool IsAudioPlaying() => _musicEmitter != null && _musicEmitter.IsPlaying();
     }
 }
