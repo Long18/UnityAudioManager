@@ -9,10 +9,12 @@ namespace Long18.System.Audio
 
     {
         [SerializeField] private AudioCueEventChannelSO _musicEventChannel;
-        [SerializeField] private AudioEmitter _emitter;
+        [SerializeField] private AudioEmitterPool _pool;
 
         private AudioEmitter _musicEmitter;
         private AudioCueSO _currentBgmCue;
+
+        private void Awake() => _pool.Create();
 
         private void OnEnable()
         {
@@ -55,7 +57,7 @@ namespace Long18.System.Audio
                     startTime = _musicEmitter.FadeMusicOut();
                 }
 
-                if (!_musicEmitter) _musicEmitter = _emitter;
+                if (!_musicEmitter) _musicEmitter = _pool.Request();
                 _musicEmitter.FadeMusicIn(currentClip, startTime);
 
                 _currentBgmCue = audioToPlay;
