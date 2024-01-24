@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Pool;
 
 namespace Long18.System.Audio.Emitters
 {
@@ -13,6 +14,7 @@ namespace Long18.System.Audio.Emitters
 
         [SerializeField] private AudioSource _audioSource;
 
+        private IObjectPool<AudioEmitter> _pool;
         private AudioEmitterValue _emitterValue;
 
         public void PlayAudioClip(AudioClip clip, bool hasLoop)
@@ -88,5 +90,7 @@ namespace Long18.System.Audio.Emitters
         public AudioClip GetClip() => _audioSource.clip;
         public bool IsPlaying() => _audioSource.isPlaying;
         private void OnFinishedPlay() => OnFinishedPlaying?.Invoke(_emitterValue);
+        public void ReleasePool() => _pool?.Release(this);
+        public void Init(IObjectPool<AudioEmitter> pool) => _pool = pool;
     }
 }
