@@ -18,5 +18,10 @@ namespace Long18.System.Audio.Emitters
         {
             if (_audioEmitter) _audioEmitter.Stop();
         }
+
+        public void ReleaseToPool()
+        {
+            if(_audioEmitter) _audioEmitter.ReleasePool();
+        }
     }
 }

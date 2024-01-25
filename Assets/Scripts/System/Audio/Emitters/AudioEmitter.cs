@@ -82,6 +82,7 @@ namespace Long18.System.Audio.Emitters
 
             _audioSource.volume = 0f;
             OnFinishedPlay();
+            ReleasePool();
         }
 
         public void Resume() => _audioSource.Play();
@@ -89,8 +90,9 @@ namespace Long18.System.Audio.Emitters
         public void Stop() => _audioSource.Stop();
         public AudioClip GetClip() => _audioSource.clip;
         public bool IsPlaying() => _audioSource.isPlaying;
-        private void OnFinishedPlay() => OnFinishedPlaying?.Invoke(_emitterValue);
         public void ReleasePool() => _pool?.Release(this);
         public void Init(IObjectPool<AudioEmitter> pool) => _pool = pool;
+        
+        private void OnFinishedPlay() => OnFinishedPlaying?.Invoke(_emitterValue);
     }
 }
