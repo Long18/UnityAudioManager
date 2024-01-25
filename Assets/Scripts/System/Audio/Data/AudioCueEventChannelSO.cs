@@ -23,7 +23,27 @@ namespace Long18.System.Audio.Data
         /// </summary>
         /// <param name="audioToPlay">The <see cref="AudioCueSO"/> to be played.</param>
         /// <param name="requestPlay">Optional flag indicating whether the play request is intentional. Default is true.</param>
-        public void PlayAudio(AudioCueSO audioToPlay, bool requestPlay = true) =>
+        public void PlayAudio(AudioCueSO audioToPlay, bool requestPlay = true)
+        {
+            if (audioToPlay == null)
+            {
+                Debug.LogWarning($"The current audio was null");
+                return;
+            }
+
+            if (audioToPlay.GetClips().Length == 0)
+            {
+                Debug.LogWarning("The current audio was empty source");
+                return;
+            }
+
+            if (OnRequested == null)
+            {
+                Debug.Log("Event was raised but no one was listening");
+                return;
+            }
+
             OnRequested!.Invoke(audioToPlay, requestPlay);
+        }
     }
 }
