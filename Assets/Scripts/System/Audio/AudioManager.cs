@@ -1,3 +1,4 @@
+using System;
 using Long18.System.Audio.Data;
 using Long18.System.Audio.Emitters;
 using Long18.System.Audio.Helper;
@@ -5,14 +6,21 @@ using UnityEngine;
 
 namespace Long18.System.Audio
 {
+    [RequireComponent((typeof(AudioEmitterPool)))]
     public class AudioManager : MonoBehaviour
-
     {
         [SerializeField] private AudioCueEventChannelSO _musicEventChannel;
-        [SerializeField] private AudioEmitterPool _pool;
 
+        private AudioEmitterPool _pool;
         private AudioEmitter _musicEmitter;
         private AudioCueSO _currentBgmCue;
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (!_pool) _pool = GetComponent<AudioEmitterPool>();
+#endif
+        }
 
         private void Awake() => _pool.Create();
 
@@ -57,7 +65,7 @@ namespace Long18.System.Audio
                     startTime = _musicEmitter.FadeMusicOut();
                 }
 
-                if (!_musicEmitter) _musicEmitter = _pool.Request();
+                _musicEmitter = _pool.Request();
                 _musicEmitter.FadeMusicIn(currentClip, startTime);
 
                 _currentBgmCue = audioToPlay;

@@ -7,7 +7,6 @@ namespace Long18.System.Audio.Emitters
     {
         [SerializeField] private AudioEmitter _prefab;
         public AudioEmitter Request() => _pool.Get();
-        public void Release(AudioEmitter audioEmitter) => audioEmitter.ReleasePool();
         protected override void OnDestroyObject(AudioEmitter obj) => Destroy(obj.gameObject);
         protected override void OnReleaseObject(AudioEmitter obj) => obj.gameObject.SetActive(false);
 

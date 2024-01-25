@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Long18.System.Audio
 {
-    public class PlayMusicOnSceneAwake : MonoBehaviour
+    public class PlayMusicOnSceneStart : MonoBehaviour
     {
         [Header("Raise on")] [SerializeField] private AudioCueEventChannelSO _musicEventChannel;
 
         [Header("Configs")] public AudioCueSO MusicTrack;
 
-        private void Awake()
+        private void Start()
         {
             PlayBackgroundMusic();
         }
