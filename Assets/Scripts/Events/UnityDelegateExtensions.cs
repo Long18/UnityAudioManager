@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+using System;
+using UnityEngine;
 
 namespace Long18.Events
 {
-    public static class UnityActionExtensions
+    public static class DelegateExtensions
     {
         private const string DEFAULT_LOG = "Event was raised but no one was listening.";
 
-        public static void SafeInvoke<T>(this UnityAction<T> action, T value, string log = DEFAULT_LOG)
+        public static void SafeInvoke<T>(this Delegate action, T value, string log = DEFAULT_LOG)
         {
             if (action == null)
             {
@@ -15,10 +15,10 @@ namespace Long18.Events
                 return;
             }
 
-            action.Invoke(value);
+            action.DynamicInvoke(value);
         }
 
-        public static void SafeInvoke(this UnityAction action, string log = DEFAULT_LOG)
+        public static void SafeInvoke(this Delegate action, string log = DEFAULT_LOG)
         {
             if (action == null)
             {
@@ -26,10 +26,10 @@ namespace Long18.Events
                 return;
             }
 
-            action.Invoke();
+            action.DynamicInvoke();
         }
 
-        public static void SafeInvoke(this UnityAction action, params object[] args)
+        public static void SafeInvoke(this Delegate action, params object[] args)
         {
             if (action == null)
             {
