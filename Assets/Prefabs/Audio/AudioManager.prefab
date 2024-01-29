@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c78340c157f82a4180e563ecf5962c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicEventChannel: {fileID: 11400000, guid: d4a1ab99002686347aa83683e22ea4c9, type: 2}
-  _pool: {fileID: 5200358429395339823}
+  _bgmEventChannel: {fileID: 11400000, guid: d4a1ab99002686347aa83683e22ea4c9, type: 2}
+  _sfxEventChannel: {fileID: 11400000, guid: b38999da36c039a4fb6d26a16e19eb32, type: 2}
 --- !u!114 &5200358429395339823
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c2d72f37834e9c843cd272363710d6, type: 3}
+  m_Name: SFXButtonClick
+  m_EditorClassIdentifier: 
+  IsLooping: 0
+  _audioClipGroups:
+  - _mode: 0
+    _audioClips:
+    - m_AssetGUID: 57e6a45092a44fd49a197c3bc110b036
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: 15004dc56195a1443a5ff86164b3f446
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    - m_AssetGUID: a443a7258813b434d87bde43d326ed96
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
