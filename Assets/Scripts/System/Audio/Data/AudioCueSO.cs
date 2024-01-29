@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace Long18.System.Audio.Data
 {
     public class AudioCueSO : ScriptableObject
     {
-        public bool Looping = false;
+        public bool IsLooping = false;
         [SerializeField] private AudioClipsGroup[] _audioClipGroups = default;
 
         public AssetReferenceT<AudioClip>[] GetClips()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Long18.Events;
+using UnityEngine;
 
 namespace Long18.System.Audio.Data
 {
@@ -25,25 +26,7 @@ namespace Long18.System.Audio.Data
         /// <param name="requestPlay">Optional flag indicating whether the play request is intentional. Default is true.</param>
         public void PlayAudio(AudioCueSO audioToPlay, bool requestPlay = true)
         {
-            if (audioToPlay == null)
-            {
-                Debug.LogWarning($"The current audio was null");
-                return;
-            }
-
-            if (audioToPlay.GetClips().Length == 0)
-            {
-                Debug.LogWarning("The current audio was empty source");
-                return;
-            }
-
-            if (OnRequested == null)
-            {
-                Debug.Log("Event was raised but no one was listening");
-                return;
-            }
-
-            OnRequested!.Invoke(audioToPlay, requestPlay);
+            OnRequested.SafeInvoke(audioToPlay, requestPlay);
         }
     }
 }

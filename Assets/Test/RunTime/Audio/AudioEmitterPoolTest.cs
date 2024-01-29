@@ -22,20 +22,20 @@ namespace Long18.Test.RunTime.Audio
 
         private const float TIME_TO_WAIT = 5.01f;
 
-        private List<MusicCueSO> _bgmCue;
+        private List<BgmCueSO> _bgmCue;
         private AudioCueEventChannelSO _musicEvent;
 
         [UnitySetUp]
         public IEnumerator OneTimeSetup()
         {
-            var audioBgmCueGUIDs = AssetDatabase.FindAssets($"t:{typeof(MusicCueSO)}");
+            var audioBgmCueGUIDs = AssetDatabase.FindAssets($"t:{typeof(BgmCueSO)}");
 
             _bgmCue = new();
 
             for (var index = 0; index < 2; index++)
             {
                 var guid = audioBgmCueGUIDs[index];
-                var audio = AssetDatabase.LoadAssetAtPath<MusicCueSO>(AssetDatabase.GUIDToAssetPath(guid));
+                var audio = AssetDatabase.LoadAssetAtPath<BgmCueSO>(AssetDatabase.GUIDToAssetPath(guid));
                 _bgmCue.Add(audio);
             }
 

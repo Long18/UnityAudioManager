@@ -9,14 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 300fb8065a394e88bbfe59c3856aaad3, type: 3}
-  m_Name: BGM_Idol
+  m_Script: {fileID: 11500000, guid: e853e723cfbf4e7da615b054cfc4db64, type: 3}
+  m_Name: PlayBGMChannel
   m_EditorClassIdentifier: 
-  Looping: 1
-  _audioClipGroups:
-  - _mode: 0
-    _audioClips:
-    - m_AssetGUID: c563b0c62cd46544e9decde643bc9bae
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0

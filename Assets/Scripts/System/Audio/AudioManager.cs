@@ -1,4 +1,3 @@
-using System;
 using Long18.System.Audio.Data;
 using Long18.System.Audio.Emitters;
 using Long18.System.Audio.Helper;
@@ -9,32 +8,75 @@ namespace Long18.System.Audio
     [RequireComponent((typeof(AudioEmitterPool)))]
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField] private AudioCueEventChannelSO _musicEventChannel;
+        [SerializeField] private AudioCueEventChannelSO _bgmEventChannel;
+        [SerializeField] private AudioCueEventChannelSO _sfxEventChannel;
 
         private AudioEmitterPool _pool;
         private AudioEmitter _musicEmitter;
         private AudioCueSO _currentBgmCue;
+        private AudioCueSO _currentSfxCue;
 
-        private void OnValidate()
+        private void Awake()
         {
-#if UNITY_EDITOR
-            if (!_pool) _pool = GetComponent<AudioEmitterPool>();
-#endif
+            _pool ??= GetComponent<AudioEmitterPool>();
+            _pool.Create();
         }
-
-        private void Awake() => _pool.Create();
 
         private void OnEnable()
         {
-            _musicEventChannel.OnRequested += OnPlayMusic;
+            _bgmEventChannel.OnRequested += OnPlayBGM;
+            _sfxEventChannel.OnRequested += OnPlaySFX;
         }
 
         private void OnDisable()
         {
-            _musicEventChannel.OnRequested -= OnPlayMusic;
+            _bgmEventChannel.OnRequested -= OnPlayBGM;
+            _sfxEventChannel.OnRequested -= OnPlaySFX;
         }
 
-        public void OnPlayMusic(AudioCueSO audioToPlay, bool requestPlay) => PlayMusic(audioToPlay, requestPlay);
+        public void OnPlayBGM(AudioCueSO audioToPlay, bool requestPlay) => PlayMusic(audioToPlay, requestPlay);
+        public void OnPlaySFX(AudioCueSO audioToPlay, bool requestPlay) => PlaySFX(audioToPlay, requestPlay);
+
+        private void PlaySFX(AudioCueSO audioToPlay, bool requestPlay)
+        {
+            if (requestPlay)
+            {
+                HandleSfxToPlay(audioToPlay);
+                return;
+            }
+
+            HandleSfxToStop();
+        }
+
+        private void HandleSfxToPlay(AudioCueSO audioToPlay)
+        {
+            AudioHelper.TryToLoadData(audioToPlay, OnAudioClipLoaded);
+            return;
+
+            void OnAudioClipLoaded(AudioClip currentClip)
+            {
+                var audioEmitter = _pool.Request();
+                if (!audioEmitter)
+                {
+                    Debug.Log($"[AudioManager::HandleSfxToPlay] Cannot play " +
+                              $"{audioToPlay}, no sound emitters available.");
+                    return;
+                }
+
+                audioEmitter.PlayAudioClip(currentClip, audioToPlay.IsLooping);
+                if (!audioToPlay.IsLooping) audioEmitter.OnFinishedPlaying += AudioFinishedPlaying;
+
+                _currentSfxCue = audioToPlay;
+            }
+        }
+
+        /// <summary>
+        /// All SFX are one shot, so we can release the emitter back to the pool
+        /// Let the pool destroy it if it's not needed anymore
+        /// </summary>
+        private void HandleSfxToStop()
+        {
+        }
 
         private void PlayMusic(AudioCueSO audioToPlay, bool requestPlay)
         {
@@ -56,6 +98,9 @@ namespace Long18.System.Audio
                 _currentBgmCue.GetPlayableAsset().ReleaseAsset();
             }
 
+            AudioHelper.TryToLoadData(audioToPlay, OnAudioClipLoaded);
+            return;
+
             void OnAudioClipLoaded(AudioClip currentClip)
             {
                 if (IsAudioPlaying())
@@ -69,11 +114,7 @@ namespace Long18.System.Audio
                 _musicEmitter.FadeMusicIn(currentClip, startTime);
 
                 _currentBgmCue = audioToPlay;
-
-                Debug.Log($"[AudioManager::HandleMusicToPlay] Playing background music: {audioToPlay.name}");
             }
-
-            AudioHelper.TryToLoadData(audioToPlay, OnAudioClipLoaded);
         }
 
 
@@ -82,9 +123,21 @@ namespace Long18.System.Audio
             if (!IsAudioPlaying()) return;
 
             _musicEmitter.Stop();
-            Debug.Log($"[AudioManager] Stopped playing background music");
         }
 
+        private void AudioFinishedPlaying(AudioEmitterValue audioEmitterValue)
+        {
+            StopAndCleanEmitter(audioEmitterValue);
+        }
+
+        private void StopAndCleanEmitter(AudioEmitterValue audioEmitterValue)
+        {
+            audioEmitterValue.UnregisterEvent(AudioFinishedPlaying);
+            audioEmitterValue.Stop();
+            audioEmitterValue.ReleaseToPool();
+
+            if (_currentSfxCue) _currentSfxCue.GetPlayableAsset().ReleaseAsset();
+        }
 
         private bool IsAudioPlaying() => _musicEmitter != null && _musicEmitter.IsPlaying();
     }
