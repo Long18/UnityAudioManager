@@ -17,12 +17,12 @@ namespace Long18.System.Audio.Emitters
         private IObjectPool<AudioEmitter> _pool;
         private AudioEmitterValue _emitterValue;
 
-        public void PlayAudioClip(AudioClip clip, bool hasLoop)
+        public void PlayAudioClip(AudioClip clip, float volume, bool hasLoop)
         {
             _emitterValue = new AudioEmitterValue(this);
 
             _audioSource.clip = clip;
-            // TODO: Create volume config
+            _audioSource.volume = volume;
             _audioSource.loop = hasLoop;
             _audioSource.time = 0f;
             _audioSource.Play();
@@ -33,7 +33,7 @@ namespace Long18.System.Audio.Emitters
 
         public void FadeMusicIn(AudioClip clip, float startTime = 0f)
         {
-            PlayAudioClip(clip, true);
+            PlayAudioClip(clip, 0, true);
             StartCoroutine(FadeIn(0, 0.5f));
 
             if (startTime <= _audioSource.clip.length)
@@ -91,7 +91,7 @@ namespace Long18.System.Audio.Emitters
         public bool IsPlaying() => _audioSource.isPlaying;
         public void ReleasePool() => _pool?.Release(this);
         public void Init(IObjectPool<AudioEmitter> pool) => _pool = pool;
-        
+
         private void OnFinishedPlay() => OnFinishedPlaying?.Invoke(_emitterValue);
     }
 }

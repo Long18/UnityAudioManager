@@ -63,7 +63,10 @@ namespace Long18.System.Audio
                     return;
                 }
 
-                audioEmitter.PlayAudioClip(currentClip, audioToPlay.IsLooping);
+                // TODO: Should remove after have volume config
+                var temporaryVolume = 1f;
+
+                audioEmitter.PlayAudioClip(currentClip, temporaryVolume, audioToPlay.IsLooping);
                 if (!audioToPlay.IsLooping) audioEmitter.OnFinishedPlaying += AudioFinishedPlaying;
 
                 _currentSfxCue = audioToPlay;
