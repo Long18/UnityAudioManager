@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: MusicAssets
+  m_Name: AudioAssets
   m_EditorClassIdentifier: 
-  m_GroupName: MusicAssets
+  m_GroupName: AudioAssets
   m_Data:
     m_SerializedData: []
   m_GUID: 5db87fd199d7f9f438fbadaf19dca759
@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 28eb4ad9a65ec494a9907a5a07171cff
-    m_Address: Assets/Data/Audio/SFX
+    m_Address: SFX
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
