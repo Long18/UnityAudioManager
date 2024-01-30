@@ -136,7 +136,7 @@ namespace Long18.System.Audio
             audioEmitterValue.Stop();
             audioEmitterValue.ReleaseToPool();
 
-            if (_currentSfxCue) _currentSfxCue.GetPlayableAsset().ReleaseAsset();
+            if (!_currentSfxCue) _currentSfxCue.GetPlayableAsset().ReleaseAsset();
         }
 
         private bool IsAudioPlaying() => _musicEmitter != null && _musicEmitter.IsPlaying();
