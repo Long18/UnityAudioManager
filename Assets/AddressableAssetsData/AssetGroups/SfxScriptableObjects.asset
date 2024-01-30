@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: MusicScriptableObjects
+  m_Name: SfxScriptableObjects
   m_EditorClassIdentifier: 
-  m_GroupName: MusicScriptableObjects
+  m_GroupName: SfxScriptableObjects
   m_Data:
     m_SerializedData: []
-  m_GUID: ce87228440ed2d947a3e14df58545956
+  m_GUID: a312f0d0862e54b4ba4a0c55a40def94
   m_SerializeEntries:
-  - m_GUID: bbc1492c03e515d4f8a0891382b62eec
-    m_Address: BGM
+  - m_GUID: 2acf3261bd2440e42811e83498359bc0
+    m_Address: SFX
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -26,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 140825c59dff30f4ebecb9ab06661447, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: a961ca1a31defb7458c24a8beef8f829, type: 2}
-    - {fileID: 11400000, guid: 62be09a601752d24f9b113a0fa38a986, type: 2}
+    - {fileID: 11400000, guid: cd96620378a006b46abe100dbd968c00, type: 2}
+    - {fileID: 11400000, guid: ef062586bf58d514ca7ae29a185d3189, type: 2}
