@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayBGM
       objectReference: {fileID: 0}
+    - target: {fileID: 4611095384279485090, guid: c9bf6a9e0f8b04a49b050c870e2836f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7932684231192047496, guid: c9bf6a9e0f8b04a49b050c870e2836f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -380,6 +384,10 @@ PrefabInstance:
     - target: {fileID: 9122669388108318780, guid: 22c91612358240c4182c6b18b2897e4d, type: 3}
       propertyPath: m_Name
       value: PlaySFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122669388108318780, guid: 22c91612358240c4182c6b18b2897e4d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
