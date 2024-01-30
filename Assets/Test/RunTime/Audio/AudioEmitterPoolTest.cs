@@ -18,12 +18,13 @@ namespace Long18.Test.RunTime.Audio
     public class AudioEmitterPoolTest
     {
         private const string AUDIO_TEST_SCENE_PATH = "Assets/Scenes/WIP/AudioTestScene.unity";
-        private const string MUSIC_EVENT_CHANNEL_PATH = "Assets/Events/Audio/PlayMusicChannel.asset";
+        private const string BGM_EVENT_CHANNEL_PATH = "Assets/Events/Audio/PlayBGMChannel.asset";
 
         private const float TIME_TO_WAIT = 5.01f;
 
+        private PlayBgmOnSceneStart _objectTriggerBgm;
         private List<BgmCueSO> _bgmCue;
-        private AudioCueEventChannelSO _musicEvent;
+        private AudioCueEventChannelSO _bgmEvent;
 
         [UnitySetUp]
         public IEnumerator OneTimeSetup()
@@ -39,9 +40,9 @@ namespace Long18.Test.RunTime.Audio
                 _bgmCue.Add(audio);
             }
 
-            _musicEvent = AssetDatabase.LoadAssetAtPath<AudioCueEventChannelSO>(MUSIC_EVENT_CHANNEL_PATH);
+            _bgmEvent = AssetDatabase.LoadAssetAtPath<AudioCueEventChannelSO>(BGM_EVENT_CHANNEL_PATH);
 
-            Assert.NotNull(_musicEvent, $"Event not null");
+            Assert.NotNull(_bgmEvent, $"Event bgm not null");
 
             yield return EditorSceneManager.LoadSceneInPlayMode(AUDIO_TEST_SCENE_PATH,
                 new LoadSceneParameters(LoadSceneMode.Single));
@@ -49,45 +50,30 @@ namespace Long18.Test.RunTime.Audio
             AudioManager audioManager = Object.FindObjectOfType<AudioManager>();
 
             Assert.NotNull(audioManager, $"Object {audioManager.name} is not null");
+
+            _objectTriggerBgm = Object.FindObjectOfType<PlayBgmOnSceneStart>();
+            _objectTriggerBgm.gameObject.SetActive(false);
         }
 
         [UnityTest]
         public IEnumerator PlayBGM_ShouldPlayAudio_ReturnFalseIfFirstIsDeactivated()
         {
-            _musicEvent.PlayAudio(_bgmCue[0]);
+            _objectTriggerBgm.gameObject.SetActive(true);
 
-            var time = 0f;
-            while (true)
-            {
-                time += Time.deltaTime;
+            _bgmEvent.PlayAudio(_bgmCue[0]);
 
-                if (time >= TIME_TO_WAIT)
-                {
-                    _musicEvent.PlayAudio(_bgmCue[1]);
-                    break;
-                }
+            yield return new WaitForSeconds(TIME_TO_WAIT);
 
-                yield return null;
-            }
+            _bgmEvent.PlayAudio(_bgmCue[1]);
 
-            time = 0f;
+            yield return new WaitForSeconds(TIME_TO_WAIT);
 
-            while (true)
-            {
-                time += Time.deltaTime;
-                if (time >= TIME_TO_WAIT)
+            AudioEmitter[] emitters = Object.FindObjectsOfType<AudioEmitter>();
 
-                {
-                    AudioEmitter[] emitters = Object.FindObjectsOfType<AudioEmitter>();
+            bool isAnyDeactivated = emitters.Any(emitter => !emitter.gameObject.activeSelf);
 
-                    bool isAnyDeactivated = emitters.Any(emitter => !emitter.gameObject.activeSelf);
-
-                    Assert.IsFalse(isAnyDeactivated, "At least one AudioEmitter should be deactivated");
-                    break;
-                }
-
-                yield return null;
-            }
+            Assert.IsFalse(isAnyDeactivated, "At least one AudioEmitter should be deactivated");
         }
+
     }
 }

@@ -9,8 +9,8 @@ namespace Long18.System.Audio.Emitters
     public class AudioEmitter : MonoBehaviour
     {
         public event UnityAction<AudioEmitterValue> OnFinishedPlaying;
-        private const float DEFAULT_VOLUME = 3f;
-        private const float FADE_VOLUME_DURATION = 2f;
+        private const float DEFAULT_VOLUME = 1f;
+        private const float FADE_VOLUME_DURATION = 3f;
 
         [SerializeField] private AudioSource _audioSource;
 
@@ -23,7 +23,6 @@ namespace Long18.System.Audio.Emitters
 
             _audioSource.clip = clip;
             // TODO: Create volume config
-            _audioSource.volume = DEFAULT_VOLUME;
             _audioSource.loop = hasLoop;
             _audioSource.time = 0f;
             _audioSource.Play();
