@@ -1,7 +1,9 @@
 using System.Collections;
+using Long18.System.Audio.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Pool;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Long18.System.Audio.Emitters
 {
@@ -9,7 +11,6 @@ namespace Long18.System.Audio.Emitters
     public class AudioEmitter : MonoBehaviour
     {
         public event UnityAction<AudioEmitterValue> OnFinishedPlaying;
-        private const float DEFAULT_VOLUME = 1f;
         private const float FADE_VOLUME_DURATION = 3f;
 
         [SerializeField] private AudioSource _audioSource;
@@ -17,12 +18,12 @@ namespace Long18.System.Audio.Emitters
         private IObjectPool<AudioEmitter> _pool;
         private AudioEmitterValue _emitterValue;
 
-        public void PlayAudioClip(AudioClip clip, float volume, bool hasLoop)
+        public void PlayAudioClip(AudioClip clip, AudioSettingSO settings, bool hasLoop)
         {
             _emitterValue = new AudioEmitterValue(this);
 
             _audioSource.clip = clip;
-            _audioSource.volume = volume;
+            _audioSource.volume = settings.Volume;
             _audioSource.loop = hasLoop;
             _audioSource.time = 0f;
             _audioSource.Play();
@@ -31,9 +32,9 @@ namespace Long18.System.Audio.Emitters
             Invoke(nameof(OnFinishedPlay), clip.length);
         }
 
-        public void FadeMusicIn(AudioClip clip, float startTime = 0f)
+        public void FadeMusicIn(AudioClip clip, AudioSettingSO settings, float startTime = 0f)
         {
-            PlayAudioClip(clip, 0, true);
+            PlayAudioClip(clip, settings, true);
             StartCoroutine(FadeIn(0, 0.5f));
 
             if (startTime <= _audioSource.clip.length)
@@ -41,8 +42,7 @@ namespace Long18.System.Audio.Emitters
                 _audioSource.time = startTime;
             }
 
-            // TODO: Create volume config
-            StartCoroutine(FadeIn(DEFAULT_VOLUME, FADE_VOLUME_DURATION));
+            StartCoroutine(FadeIn(settings.Volume, FADE_VOLUME_DURATION));
         }
 
         public float FadeMusicOut()
@@ -87,11 +87,11 @@ namespace Long18.System.Audio.Emitters
         public void Resume() => _audioSource.Play();
         public void Pause() => _audioSource.Pause();
         public void Stop() => _audioSource.Stop();
+        public void SetVolume(float value) => _audioSource.volume = value;
         public AudioClip GetClip() => _audioSource.clip;
         public bool IsPlaying() => _audioSource.isPlaying;
         public void ReleasePool() => _pool?.Release(this);
         public void Init(IObjectPool<AudioEmitter> pool) => _pool = pool;
-
         private void OnFinishedPlay() => OnFinishedPlaying?.Invoke(_emitterValue);
     }
 }
