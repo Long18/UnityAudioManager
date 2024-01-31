@@ -1,7 +1,9 @@
 using Long18.System.Audio.Data;
 using Long18.System.Audio.Emitters;
 using Long18.System.Audio.Helper;
+using Long18.System.Audio.Settings;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Long18.System.Audio
 {
@@ -11,8 +13,10 @@ namespace Long18.System.Audio
         [SerializeField] private AudioCueEventChannelSO _bgmEventChannel;
         [SerializeField] private AudioCueEventChannelSO _sfxEventChannel;
 
+        [Header("Settings")] [SerializeField] private AudioSettingSO _audioSetting;
+
         private AudioEmitterPool _pool;
-        private AudioEmitter _musicEmitter;
+        private AudioEmitter _audioEmitter;
         private AudioCueSO _currentBgmCue;
         private AudioCueSO _currentSfxCue;
 
@@ -26,12 +30,17 @@ namespace Long18.System.Audio
         {
             _bgmEventChannel.OnRequested += OnPlayBGM;
             _sfxEventChannel.OnRequested += OnPlaySFX;
+
+
+            _audioSetting.OnVolumeChanged += OnChangeVolume;
         }
 
         private void OnDisable()
         {
             _bgmEventChannel.OnRequested -= OnPlayBGM;
             _sfxEventChannel.OnRequested -= OnPlaySFX;
+
+            _audioSetting.OnVolumeChanged -= OnChangeVolume;
         }
 
         public void OnPlayBGM(AudioCueSO audioToPlay, bool requestPlay) => PlayMusic(audioToPlay, requestPlay);
@@ -63,10 +72,7 @@ namespace Long18.System.Audio
                     return;
                 }
 
-                // TODO: Should remove after have volume config
-                var temporaryVolume = 1f;
-
-                audioEmitter.PlayAudioClip(currentClip, temporaryVolume, audioToPlay.IsLooping);
+                audioEmitter.PlayAudioClip(currentClip, _audioSetting, audioToPlay.IsLooping);
                 if (!audioToPlay.IsLooping) audioEmitter.OnFinishedPlaying += AudioFinishedPlaying;
 
                 _currentSfxCue = audioToPlay;
@@ -109,23 +115,29 @@ namespace Long18.System.Audio
                 if (IsAudioPlaying())
                 {
                     AudioClip musicToPlay = currentClip;
-                    if (_musicEmitter.GetClip() == musicToPlay) return;
-                    startTime = _musicEmitter.FadeMusicOut();
+                    if (_audioEmitter.GetClip() == musicToPlay) return;
+                    startTime = _audioEmitter.FadeMusicOut();
                 }
 
-                _musicEmitter = _pool.Request();
-                _musicEmitter.FadeMusicIn(currentClip, startTime);
+                _audioEmitter = _pool.Request();
+                _audioEmitter.FadeMusicIn(currentClip, _audioSetting);
 
                 _currentBgmCue = audioToPlay;
             }
         }
 
+        private void OnChangeVolume(float value)
+        {
+            if (!IsAudioPlaying()) return;
+
+            _audioEmitter.SetVolume(value);
+        }
 
         private void HandleMusicToStop()
         {
             if (!IsAudioPlaying()) return;
 
-            _musicEmitter.Stop();
+            _audioEmitter.Stop();
         }
 
         private void AudioFinishedPlaying(AudioEmitterValue audioEmitterValue)
@@ -142,6 +154,6 @@ namespace Long18.System.Audio
             if (!_currentSfxCue) _currentSfxCue.GetPlayableAsset().ReleaseAsset();
         }
 
-        private bool IsAudioPlaying() => _musicEmitter != null && _musicEmitter.IsPlaying();
+        private bool IsAudioPlaying() => _audioEmitter != null && _audioEmitter.IsPlaying();
     }
 }

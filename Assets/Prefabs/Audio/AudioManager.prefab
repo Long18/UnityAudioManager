@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bgmEventChannel: {fileID: 11400000, guid: d4a1ab99002686347aa83683e22ea4c9, type: 2}
   _sfxEventChannel: {fileID: 11400000, guid: b38999da36c039a4fb6d26a16e19eb32, type: 2}
+  _audioSetting: {fileID: 11400000, guid: bbfa66a906a0bc24a944bc408c6cc5dc, type: 2}
 --- !u!114 &5200358429395339823
 MonoBehaviour:
   m_ObjectHideFlags: 0
