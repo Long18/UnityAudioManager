@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="VisualElement" style="margin-top: 0; margin-bottom: 10px;" />
+    <ui:Label tabindex="-1" text="Tool Editor" display-tooltip-when-elided="true" style="font-size: 24px; -unity-font-style: bold; -unity-text-align: upper-center;" />
+    <ui:Label tabindex="-1" text="Volume Controller" display-tooltip-when-elided="true" style="font-size: 12px; -unity-font-style: bold; -unity-text-align: upper-center; margin-top: -3px; margin-bottom: 5px; color: rgb(152, 152, 152);" />
+    <ui:Slider picking-mode="Ignore" label="Volume" value="0" high-value="1" name="volume-slider" show-input-field="true" />
+</ui:UXML>
