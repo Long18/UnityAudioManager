@@ -87,7 +87,7 @@ namespace Long18.AudioSystem.Test.RunTime.Audio
         }
 
         [UnityTest]
-        public IEnumerator PlayBGM_ShouldReturnTrueIfAnyEmitterDeactivated()
+        public IEnumerator PlayBGM_ShouldActivateEmitter()
         {
             _objectTriggerBgm[0].gameObject.SetActive(true);
 
@@ -104,12 +104,12 @@ namespace Long18.AudioSystem.Test.RunTime.Audio
             Assert.IsTrue(isAnyDeactivated, "At least one AudioEmitter should be deactivated");
         }
 
-        [TestCase(10, ExpectedResult = null)]
-        [TestCase(7, ExpectedResult = null)]
         [TestCase(3, ExpectedResult = null)]
         [TestCase(5, ExpectedResult = null)]
+        [TestCase(7, ExpectedResult = null)]
         [TestCase(9, ExpectedResult = null)]
-        public IEnumerator PlaySFX_ShouldReturnTrueIfAllEmittersDeactivated_WithNumberOfTime(int value)
+        [TestCase(10, ExpectedResult = null)]
+        public IEnumerator PlaySFX_ShouldActivateEmitter_WithNumberOfTimes(int value)
         {
             _objectTriggerSfx[0].gameObject.SetActive(true);
 
