@@ -16,9 +16,9 @@ namespace Long18.AudioSystem.Test.RunTime.Audio
     [Category("AudioIntegration")]
     public class AudioEmitterPoolTest
     {
-        private const string AUDIO_TEST_SCENE_PATH = "Assets/Scenes/WIP/AudioTestScene.unity";
-        private const string BGM_EVENT_CHANNEL_PATH = "Assets/Events/Audio/PlayBGMChannel.asset";
-        private const string SFX_EVENT_CHANNEL_PATH = "Assets/Events/Audio/PlaySFXChannel.asset";
+        private const string AUDIO_TEST_SCENE_PATH = "Assets/AudioSystem/Scenes/WIP/AudioTestScene.unity";
+        private const string BGM_EVENT_CHANNEL_PATH = "Assets/AudioSystem/Events/Audio/PlayBGMChannel.asset";
+        private const string SFX_EVENT_CHANNEL_PATH = "Assets/AudioSystem/Events/Audio/PlaySFXChannel.asset";
         private const int NUMBER_OF_BGM_ASSET = 2;
         private const int NUMBER_OF_SFX_ASSET = 3;
         private const float TIME_TO_WAIT = 5.01f;
@@ -87,7 +87,7 @@ namespace Long18.AudioSystem.Test.RunTime.Audio
         }
 
         [UnityTest]
-        public IEnumerator PlayBGM_ShouldPlayAudio_ShouldReturnTrueIfAnyEmitterDeactivated()
+        public IEnumerator PlayBGM_ShouldReturnTrueIfAnyEmitterDeactivated()
         {
             _objectTriggerBgm[0].gameObject.SetActive(true);
 
@@ -109,7 +109,7 @@ namespace Long18.AudioSystem.Test.RunTime.Audio
         [TestCase(3, ExpectedResult = null)]
         [TestCase(5, ExpectedResult = null)]
         [TestCase(9, ExpectedResult = null)]
-        public IEnumerator PlaySFX_ShouldPlayAudio_ShouldReturnTrueIfAllEmittersDeactivated_WithNumberOfTime(int value)
+        public IEnumerator PlaySFX_ShouldReturnTrueIfAllEmittersDeactivated_WithNumberOfTime(int value)
         {
             _objectTriggerSfx[0].gameObject.SetActive(true);
 
