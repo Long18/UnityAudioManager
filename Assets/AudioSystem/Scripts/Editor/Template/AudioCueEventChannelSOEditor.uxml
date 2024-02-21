@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="VisualElement" style="margin-top: 0; margin-bottom: 10px;" />
+    <ui:Label tabindex="-1" text="Tool Editor" display-tooltip-when-elided="true" style="font-size: 24px; -unity-font-style: bold; -unity-text-align: upper-center;" />
+    <ui:Label tabindex="-1" text="Event Audio" display-tooltip-when-elided="true" style="font-size: 12px; -unity-font-style: bold; -unity-text-align: upper-center; margin-top: -3px; margin-bottom: 5px; color: rgb(152, 152, 152);" />
+    <ui:Toggle label="Request To Play" tooltip="Check true to play, false to pause" name="audio-request" value="true" />
+    <ui:Toggle label="Is SFX" name="is-sfx" value="false" />
+    <ui:Foldout text="Data" name="foldout">
+        <ui:VisualElement name="bgm-element" style="flex-grow: 1;">
+            <uie:ObjectField label="Audio To Play" name="bgm-data" type="Long18.AudioSystem.Data.AudioCueSO, Long18.AudioSystem" />
+        </ui:VisualElement>
+        <ui:VisualElement name="sfx-element" style="flex-grow: 1; display: none;">
+            <uie:ObjectField label="Audio To Play" name="sfx-data" type="Long18.AudioSystem.Data.AudioCueSO, Long18.AudioSystem" />
+            <ui:IntegerField label="Random Time" value="1" name="sfx-random-value" tooltip="Number of audio want to play" />
+            <ui:Toggle label="Loop" name="is-random" />
+        </ui:VisualElement>
+    </ui:Foldout>
+    <ui:Button text="Play Audio" parse-escape-sequences="true" display-tooltip-when-elided="true" name="play-audio-button" style="align-items: center; justify-content: center; align-self: center;" />
+</ui:UXML>
