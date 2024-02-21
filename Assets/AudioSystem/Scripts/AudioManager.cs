@@ -30,7 +30,6 @@ namespace Long18.AudioSystem
             _bgmEventChannel.OnRequested += OnPlayBGM;
             _sfxEventChannel.OnRequested += OnPlaySFX;
 
-
             _audioSetting.OnVolumeChanged += OnChangeVolume;
         }
 
@@ -101,10 +100,7 @@ namespace Long18.AudioSystem
         {
             float startTime = 0f;
 
-            if (_currentBgmCue != null)
-            {
-                _currentBgmCue.GetPlayableAsset().ReleaseAsset();
-            }
+            if (_currentBgmCue) _currentBgmCue.ReleaseAsset();
 
             AudioHelper.TryToLoadData(audioToPlay, OnAudioClipLoaded);
             return;
@@ -150,7 +146,7 @@ namespace Long18.AudioSystem
             audioEmitterValue.Stop();
             audioEmitterValue.ReleaseToPool();
 
-            if (!_currentSfxCue) _currentSfxCue.GetPlayableAsset().ReleaseAsset();
+            if (!_currentSfxCue) _currentSfxCue.ReleaseAsset();
         }
 
         private bool IsAudioPlaying() => _audioEmitter != null && _audioEmitter.IsPlaying();

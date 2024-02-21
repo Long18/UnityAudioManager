@@ -38,5 +38,11 @@ namespace Long18.AudioSystem.Data
             ClipIndex.GoForward(_audioClips.Length);
             return _audioClips[ClipIndex.Value];
         }
+        
+        public AssetReferenceT<AudioClip> SwitchToPreviousClip()
+        {
+            ClipIndex.GoBackward(_audioClips.Length);
+            return _audioClips[ClipIndex.Value];
+        }
     }
 }

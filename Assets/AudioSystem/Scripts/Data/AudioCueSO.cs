@@ -21,7 +21,14 @@ namespace Long18.AudioSystem.Data
             return clipsResult;
         }
 
-        public AssetReferenceT<AudioClip> GetPlayableAsset()
-            => _audioClipGroups[0].SwitchToNextClip();
+        public AssetReferenceT<AudioClip> GetPlayableAsset() => _audioClipGroups[0].SwitchToNextClip();
+
+        public void ReleaseAsset()
+        {
+            AssetReferenceT<AudioClip> currentAsset = GetPlayableAsset();
+
+            if (currentAsset == null || !currentAsset.RuntimeKeyIsValid()) return;
+            currentAsset.ReleaseAsset();
+        }
     }
 }
