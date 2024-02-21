@@ -12,7 +12,7 @@ namespace Long18Editor.AudioSystem
         [SerializeField] private VisualTreeAsset _visualTreeAsset;
 
         private AudioSettingSO Target => target as AudioSettingSO;
-        private Slider volumeSlider;
+        private Slider _volumeSlider;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -22,17 +22,17 @@ namespace Long18Editor.AudioSystem
 
             _visualTreeAsset.CloneTree(root);
 
-            volumeSlider = root.Q<Slider>("volume-slider");
-            volumeSlider.value = Target.Volume;
+            _volumeSlider = root.Q<Slider>("volume-slider");
+            _volumeSlider.value = Target.Volume;
 
-            volumeSlider.RegisterValueChangedCallback(ChangeValueEditorCallback);
+            _volumeSlider.RegisterValueChangedCallback(ChangeValueEditorCallback);
             Target.OnVolumeChanged += ChangeMasterVolume;
 
             return root;
         }
 
         private void ChangeValueEditorCallback(ChangeEvent<float> evt) => Target.Volume = evt.newValue;
-        private void ChangeMasterVolume(float value) => volumeSlider.value = value;
+        private void ChangeMasterVolume(float value) => _volumeSlider.value = value;
         private void OnDisable() => Target.OnVolumeChanged -= ChangeMasterVolume;
     }
 }
