@@ -3,8 +3,8 @@ UnityAudioManager
 
 UnityAudioManager is a Package that contains the following components:
 
-* ReadOnly
-* 
+* Audio Manager
+* Event listener ( `play`, `pause` audio)
 
 ## Table of Contents
 
