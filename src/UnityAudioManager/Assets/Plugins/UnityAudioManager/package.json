@@ -2,6 +2,7 @@
   "name": "long18.audio-manager",
   "version": "1.0.0",
   "displayName": "Audio Manager",
+  "author": { "name": "Thành Long - William", "url": "https://long18.github.io/" },
   "description": "Audio manager play audio using scriptable object event",
   "unity": "2022.3",
   "unityRelease": "0f1",
